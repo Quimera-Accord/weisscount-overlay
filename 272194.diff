@@ -218,3 +218,32 @@
 +%%DOCS%%share/doc/dovecot/sieve/plugins/imap_filter_sieve.txt
 +%%DOCS%%share/doc/dovecot/sieve/plugins/imapsieve.txt
 +%%DOCS%%share/doc/dovecot/sieve/plugins/sieve_extprograms.txt
+--- mail/dovecot24-pigeonhole/Makefile
++++ mail/dovecot24-pigeonhole/Makefile
+@@ -15,9 +15,23 @@
+ # Prevent installation if the old pigeonhole port (for Dovecot 2.3) is present
+ CONFLICTS_INSTALL=	dovecot-pigeonhole
+ 
+-# Strict dependencies on the new Dovecot 2.4 framework
+-BUILD_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24
+-RUN_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24
++# Mirror dovecot24's flavors so this always links against, and depends
++# on, the *same* dovecot24 flavor it was built for.
++FLAVORS=	default mysql pgsql
++FLAVOR?=	default
++mysql_PKGNAMESUFFIX=	-mysql
++pgsql_PKGNAMESUFFIX=	-pgsql
++
++.if ${FLAVOR} == mysql
++BUILD_DEPENDS=	dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
++RUN_DEPENDS=	dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
++.elif ${FLAVOR} == pgsql
++BUILD_DEPENDS=	dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
++RUN_DEPENDS=	dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
++.else
++BUILD_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24@default
++RUN_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24@default
++.endif
+ 
+ USES=		cpe libtool localbase python:build,test
+ CPE_VENDOR=	dovecot
