@@ -1,29 +1,17 @@
---- mail/dovecot24-pigeonhole/Makefile
-+++ mail/dovecot24-pigeonhole/Makefile
-@@ -15,9 +15,23 @@
- # Prevent installation if the old pigeonhole port (for Dovecot 2.3) is present
- CONFLICTS_INSTALL=	dovecot-pigeonhole
+--- mail/dovecot24/Makefile
++++ mail/dovecot24/Makefile
+@@ -47,11 +47,11 @@
+ LDFLAGS+=	-L${LOCALBASE}/lib -L${OPENSSLLIB}
  
--# Strict dependencies on the new Dovecot 2.4 framework
--BUILD_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24
--RUN_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24
-+# Mirror dovecot24's flavors so this always links against, and depends
-+# on, the *same* dovecot24 flavor it was built for.
-+FLAVORS=	default mysql pgsql
-+FLAVOR?=	default
-+mysql_PKGNAMESUFFIX=	-mysql
-+pgsql_PKGNAMESUFFIX=	-pgsql
-+
-+.if ${FLAVOR} == mysql
-+BUILD_DEPENDS=	dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
-+RUN_DEPENDS=	dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
-+.elif ${FLAVOR} == pgsql
-+BUILD_DEPENDS=	dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
-+RUN_DEPENDS=	dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
-+.else
-+BUILD_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24@default
-+RUN_DEPENDS=	dovecot24>=2.4.4:mail/dovecot24@default
-+.endif
+ .if ${FLAVOR} == default
+-CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24-mysql dovecot24-pgsql
+ .elif ${FLAVOR} == mysql
+-CONFLICTS=	dovecot dovecot-pgsql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24 dovecot24-pgsql
+ .elif ${FLAVOR} == pgsql
+-CONFLICTS=	dovecot dovecot-mysql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24 dovecot24-mysql
+ .endif
  
- USES=		cpe libtool localbase python:build,test
- CPE_VENDOR=	dovecot
+ DOCSDIR=	${PREFIX}/share/doc/dovecot
