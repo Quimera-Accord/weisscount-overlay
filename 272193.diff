@@ -1323,3 +1323,20 @@
 +share/man/man1/dovecot-sysreport.1.gz
 +share/man/man1/dovecot.1.gz
 +share/man/man7/doveadm-search-query.7.gz
+--- mail/dovecot24/Makefile
++++ mail/dovecot24/Makefile
+@@ -47,11 +47,11 @@
+ LDFLAGS+=	-L${LOCALBASE}/lib -L${OPENSSLLIB}
+ 
+ .if ${FLAVOR} == default
+-CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24-mysql dovecot24-pgsql
+ .elif ${FLAVOR} == mysql
+-CONFLICTS=	dovecot dovecot-pgsql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24 dovecot24-pgsql
+ .elif ${FLAVOR} == pgsql
+-CONFLICTS=	dovecot dovecot-mysql
++CONFLICTS=	dovecot dovecot-mysql dovecot-pgsql dovecot24 dovecot24-mysql
+ .endif
+ 
+ DOCSDIR=	${PREFIX}/share/doc/dovecot
