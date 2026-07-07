@@ -1,6 +1,6 @@
 diff -ruN a/mail/dovecot24-pigeonhole/Makefile b/mail/dovecot24-pigeonhole/Makefile
---- a/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:22:55.376086000 -0300
-+++ b/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:24:40.982602000 -0300
+--- a/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:42:59.222357000 -0300
++++ b/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:43:27.241001000 -0300
 @@ -12,8 +12,23 @@
  LICENSE=       LGPL21
  LICENSE_FILE=  ${WRKSRC}/COPYING.LGPL
@@ -27,3 +27,4 @@ diff -ruN a/mail/dovecot24-pigeonhole/Makefile b/mail/dovecot24-pigeonhole/Makef
  
  USES=          cpe libtool localbase python:build,test ssl
  CPE_VENDOR=    dovecot
+
