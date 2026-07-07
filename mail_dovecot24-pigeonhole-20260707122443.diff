@@ -1,0 +1,29 @@
+diff -ruN a/mail/dovecot24-pigeonhole/Makefile b/mail/dovecot24-pigeonhole/Makefile
+--- a/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:22:55.376086000 -0300
++++ b/mail/dovecot24-pigeonhole/Makefile        2026-07-07 12:24:40.982602000 -0300
+@@ -12,8 +12,23 @@
+ LICENSE=       LGPL21
+ LICENSE_FILE=  ${WRKSRC}/COPYING.LGPL
+ 
+-BUILD_DEPENDS= dovecot24>=2.4.4:mail/dovecot24
+-RUN_DEPENDS=   dovecot24>=2.4.4:mail/dovecot24
++# Mirror dovecot24's flavors so this always links against, and depends
++# on, the *same* dovecot24 flavor it was built for.
++FLAVORS=       default mysql pgsql
++FLAVOR?=       default
++mysql_PKGNAMESUFFIX=   -mysql
++pgsql_PKGNAMESUFFIX=   -pgsql
++
++.if ${FLAVOR} == mysql
++BUILD_DEPENDS= dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
++RUN_DEPENDS=   dovecot24-mysql>=2.4.4:mail/dovecot24@mysql
++.elif ${FLAVOR} == pgsql
++BUILD_DEPENDS= dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
++RUN_DEPENDS=   dovecot24-pgsql>=2.4.4:mail/dovecot24@pgsql
++.else
++BUILD_DEPENDS= dovecot24>=2.4.4:mail/dovecot24@default
++RUN_DEPENDS=   dovecot24>=2.4.4:mail/dovecot24@default
++.endif
+ 
+ USES=          cpe libtool localbase python:build,test ssl
+ CPE_VENDOR=    dovecot
